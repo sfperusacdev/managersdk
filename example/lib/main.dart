@@ -30,6 +30,7 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   List<Licence> licences = [];
+  String deviceID = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +43,7 @@ class _MyHomeState extends State<MyHome> {
               onPressed: () async {
                 final notifier = ScaffoldMessenger.of(context);
                 try {
+                  deviceID = await ManagerSDKF().deviceID();
                   final result = await ManagerSDKF().readLicences();
                   setState(() => licences = result);
                 } catch (err) {
@@ -50,6 +52,12 @@ class _MyHomeState extends State<MyHome> {
                 }
               },
               child: const Text("Leer data"),
+            ),
+            const SizedBox(height: 20.0),
+            Text(
+              deviceID,
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20.0),
             ...licences.map(

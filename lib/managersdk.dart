@@ -33,4 +33,15 @@ Asegúrate de tener la aplicación correcta instalada e intenta nuevamente.''');
       throw Exception("No se pudo leer las licencias");
     }
   }
+
+  Future<String> deviceID() async {
+    if (!_wastInited) await _init();
+    try {
+      final value = await SharedPreferencesContentProvider.get("device_id");
+      if (value is String) return value;
+      return "---device-id-not-found---";
+    } catch (err) {
+      throw Exception("No se pudo leer el identificador del dispositivo");
+    }
+  }
 }
