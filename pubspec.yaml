@@ -1,10 +1,10 @@
 name: managersdk
 description: Simple sdk
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/sfperusacdev/managersdk
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
