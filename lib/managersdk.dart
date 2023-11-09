@@ -9,7 +9,7 @@ class ManagerSDKF {
   ManagerSDKF._internal();
 
   bool _wastInited = false;
-  static const devappProviderAuthority = "com.ksaucedo.devapp";
+  static const devappProviderAuthority = "com.sfperusac.manager.licences";
   Future<void> _init() async {
     try {
       await SharedPreferencesContentProvider.init(
@@ -25,7 +25,7 @@ Asegúrate de tener la aplicación correcta instalada e intenta nuevamente.''');
   Future<List<Licence>> readLicences() async {
     if (!_wastInited) await _init();
     try {
-      final value = await SharedPreferencesContentProvider.get("list_values");
+      final value = await SharedPreferencesContentProvider.get("licences");
       if (value is! String) return [];
       if (value == "") return [];
       return licenceFromJson(value);
