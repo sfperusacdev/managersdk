@@ -13,3 +13,7 @@
 ## 0.1.3
 
 - Add suport for destock, connection width localidentity service
+
+## 0.1.4
+
+- Fix licence decode

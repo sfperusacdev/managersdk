@@ -61,7 +61,7 @@ class _LocalServer implements ReadeProvider {
       throw "LocalIdentity Licences: ${decoded["message"]}";
     }
     final decoded = jsonDecode(response.body);
-    return licenceFromJson(decoded["data"]);
+    return licenceFromJson(jsonEncode(decoded["data"]));
   }
 }
 
