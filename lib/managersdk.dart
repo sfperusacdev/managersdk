@@ -1,5 +1,7 @@
 library managersdk;
 
+import 'dart:io';
+
 import 'package:managersdk/licence.dart';
 import 'package:shared_preferences_content_provider/shared_preferences_content_provider.dart';
 
@@ -11,6 +13,7 @@ class ManagerSDKF {
   bool _wastInited = false;
   static const devappProviderAuthority = "com.sfperusac.manager.licences";
   Future<void> _init() async {
+    if (!Platform.isAndroid) return; // TODO
     try {
       await SharedPreferencesContentProvider.init(
         providerAuthority: devappProviderAuthority,
@@ -23,6 +26,7 @@ Asegúrate de tener la aplicación correcta instalada e intenta nuevamente.''');
   }
 
   Future<List<Licence>> readLicences() async {
+    if (!Platform.isAndroid) return []; // TODO
     if (!_wastInited) await _init();
     try {
       final value = await SharedPreferencesContentProvider.get("licences");
@@ -35,6 +39,7 @@ Asegúrate de tener la aplicación correcta instalada e intenta nuevamente.''');
   }
 
   Future<String> deviceID() async {
+    if (!Platform.isAndroid) return "device-id-not-found"; // TODO
     if (!_wastInited) await _init();
     try {
       final value = await SharedPreferencesContentProvider.get("device_id");

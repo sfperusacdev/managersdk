@@ -1,7 +1,11 @@
 ## 0.1.0
 
-* Read Licenes
+- Read Licenes
 
 ## 0.1.1
 
-* Add ReadDeviceID
+- Add ReadDeviceID
+
+## 0.1.2
+
+- Only android support
