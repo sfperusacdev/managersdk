@@ -9,3 +9,7 @@
 ## 0.1.2
 
 - Only android support
+
+## 0.1.3
+
+- Add suport for destock, connection width localidentity service
