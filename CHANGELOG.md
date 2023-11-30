@@ -17,3 +17,16 @@
 ## 0.1.4
 
 - Fix licence decode
+
+## 0.1.5
+
+- Fix
+
+## 0.1.6
+
+- Once
+
+## 0.1.7
+
+- Change error message
+

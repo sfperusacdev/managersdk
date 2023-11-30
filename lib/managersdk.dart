@@ -3,12 +3,13 @@ library managersdk;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:managersdk/licence.dart';
 import 'package:shared_preferences_content_provider/shared_preferences_content_provider.dart';
 import 'package:http/http.dart' as http;
 
 abstract class ReadeProvider {
-  Future<void> init();
+  Future<void> init() async {}
   Future<List<Licence>> licences();
   Future<String> deviceID();
 }
@@ -50,9 +51,6 @@ class _LocalServer implements ReadeProvider {
   }
 
   @override
-  Future<void> init() async {}
-
-  @override
   Future<List<Licence>> licences() async {
     final url = Uri.parse("https://local.identity.sfperu.local:7443/v1/device_licences");
     final response = await http.get(url);
@@ -63,6 +61,9 @@ class _LocalServer implements ReadeProvider {
     final decoded = jsonDecode(response.body);
     return licenceFromJson(jsonEncode(decoded["data"]));
   }
+
+  @override
+  Future<void> init() async {}
 }
 
 class ManagerSDKF {
@@ -72,14 +73,15 @@ class ManagerSDKF {
   late ReadeProvider reader;
   bool _wastInited = false;
   Future<void> _init() async {
+    if (_wastInited) return;
     if (Platform.isIOS) throw "IOS is not soported";
     reader = (Platform.isAndroid) ? _SharedPreferences() : _LocalServer();
     try {
       await reader.init();
       _wastInited = true;
     } catch (err) {
-      throw Exception('''Proveedor de variables de entorno no encontrado. 
-Asegúrate de tener la aplicación correcta instalada e intenta nuevamente.''');
+      if (kDebugMode) print("ManagerSDKF._init EROR: ${err.toString()}");
+      throw '''Servicio de autentificación no encontrado''';
     }
   }
 
