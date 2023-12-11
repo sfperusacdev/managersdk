@@ -99,6 +99,7 @@ class ManagerSDKF {
     reader = (Platform.isAndroid) ? _SharedPreferences() : _LocalServer();
     try {
       await reader.init();
+      await Future.delayed(const Duration(seconds: 1));
       _wastInited = true;
     } catch (err) {
       if (kDebugMode) print("ManagerSDKF._init EROR: ${err.toString()}");
