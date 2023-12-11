@@ -16,7 +16,7 @@ abstract class ReadeProvider {
 }
 
 class _SharedPreferences implements ReadeProvider {
-  static const devappProviderAuthority = "com.sfperusac.manager.licences";
+  static const providerAuthority = "com.sfperusac.manager.licences";
   @override
   Future<String> deviceID() async {
     final value = await SharedPreferencesContentProvider.get("__device_id__");
@@ -34,14 +34,15 @@ class _SharedPreferences implements ReadeProvider {
   @override
   Future<void> init() async {
     await SharedPreferencesContentProvider.init(
-      providerAuthority: devappProviderAuthority,
+      providerAuthority: providerAuthority,
     );
   }
 
   @override
   Future<List<Licence>> licences() async {
     final value = await SharedPreferencesContentProvider.get("licences");
-    return licenceFromJson(value);
+    if (value is String) return licenceFromJson(value);
+    return [];
   }
 }
 

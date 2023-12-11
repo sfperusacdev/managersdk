@@ -44,9 +44,9 @@ class _MyHomeState extends State<MyHome> {
               onPressed: () async {
                 final notifier = ScaffoldMessenger.of(context);
                 try {
+                  final result = await ManagerSDKF().readLicences();
                   deviceID = await ManagerSDKF().deviceID();
                   deviceName = await ManagerSDKF().deviceName();
-                  final result = await ManagerSDKF().readLicences();
                   setState(() => licences = result);
                 } catch (err) {
                   var snackBar = SnackBar(content: Text(err.toString()));

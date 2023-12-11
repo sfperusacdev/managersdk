@@ -34,3 +34,7 @@
 
 - add device name
 
+
+## 0.2.1
+
+- fix provider
