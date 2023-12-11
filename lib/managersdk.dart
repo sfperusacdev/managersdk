@@ -12,15 +12,23 @@ abstract class ReadeProvider {
   Future<void> init() async {}
   Future<List<Licence>> licences();
   Future<String> deviceID();
+  Future<String> deviceName();
 }
 
 class _SharedPreferences implements ReadeProvider {
   static const devappProviderAuthority = "com.sfperusac.manager.licences";
   @override
   Future<String> deviceID() async {
-    final value = await SharedPreferencesContentProvider.get("device_id");
+    final value = await SharedPreferencesContentProvider.get("__device_id__");
     if (value is String) return value;
     return "---device-id-not-found---";
+  }
+
+  @override
+  Future<String> deviceName() async {
+    final value = await SharedPreferencesContentProvider.get("__device_name__");
+    if (value is String) return value;
+    return "";
   }
 
   @override
@@ -38,6 +46,18 @@ class _SharedPreferences implements ReadeProvider {
 }
 
 class _LocalServer implements ReadeProvider {
+  @override
+  Future<String> deviceName() async {
+    final url = Uri.parse("https://local.identity.sfperu.local:7443/v1/devicename");
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      final decoded = jsonDecode(response.body);
+      throw "LocalIdentity DeviceID: ${decoded["message"]}";
+    }
+    final decoded = jsonDecode(response.body);
+    return decoded["data"]["name"] as String;
+  }
+
   @override
   Future<String> deviceID() async {
     final url = Uri.parse("https://local.identity.sfperu.local:7443/v1/deviceid");
@@ -100,6 +120,15 @@ class ManagerSDKF {
       return reader.deviceID();
     } catch (err) {
       throw Exception("No se pudo leer el identificador del dispositivo");
+    }
+  }
+
+  Future<String> deviceName() async {
+    if (!_wastInited) await _init();
+    try {
+      return reader.deviceName();
+    } catch (err) {
+      throw Exception("No se pudo leer el nombre del dispositivo");
     }
   }
 }

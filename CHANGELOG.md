@@ -30,3 +30,7 @@
 
 - Change error message
 
+## 0.2.0
+
+- add device name
+
