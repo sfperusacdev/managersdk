@@ -38,3 +38,6 @@
 ## 0.2.1
 
 - fix provider
+
+## 0.2.2
+- fix permissions
